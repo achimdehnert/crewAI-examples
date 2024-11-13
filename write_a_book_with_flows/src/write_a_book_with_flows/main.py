@@ -1,16 +1,21 @@
 #!/usr/bin/env python
+import sys
+import os 
+
 import asyncio
 from typing import List
 
 from crewai.flow.flow import Flow, listen, start
 from pydantic import BaseModel
 
+# Add the parent directory to the PYTHONPATH
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from write_a_book_with_flows.crews.write_book_chapter_crew.write_book_chapter_crew import (
     WriteBookChapterCrew,
 )
 from write_a_book_with_flows.types import Chapter, ChapterOutline
 
-from .crews.outline_book_crew.outline_crew import OutlineCrew
+from write_a_book_with_flows.crews.outline_book_crew.outline_crew import OutlineCrew
 
 
 class BookState(BaseModel):
@@ -18,7 +23,7 @@ class BookState(BaseModel):
     book: List[Chapter] = []
     book_outline: List[ChapterOutline] = []
     topic: str = (
-        "Exploring the latest trends in AI across different industries as of September 2024"
+        "welche Konsequenzen hat die wahl 2024 von Donald trump auf die Europapolitik? "
     )
     goal: str = """
         The goal of this book is to provide a comprehensive overview of the current state of artificial intelligence in September 2024.

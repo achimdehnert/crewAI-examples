@@ -1,3 +1,6 @@
+import os
+from dotenv import load_dotenv
+
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import SerperDevTool
@@ -5,6 +8,12 @@ from langchain_openai import ChatOpenAI
 
 from write_a_book_with_flows.types import BookOutline
 
+from crewai import LLM
+
+load_dotenv()
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+print(GROQ_API_KEY)
 
 @CrewBase
 class OutlineCrew:
@@ -13,7 +22,12 @@ class OutlineCrew:
     agents_config = "config/agents.yaml"
     tasks_config = "config/tasks.yaml"
     # llm = ChatOpenAI(model="chatgpt-4o-latest")
-    llm = ChatOpenAI(model="gpt-4o")
+    #llm = ChatOpenAI(model="gpt-4o-mini")
+    llm = LLM(
+ 	model="groq/llama-3.2-11b-text-preview",
+   	api_key=GROQ_API_KEY
+	)
+
 
     @agent
     def researcher(self) -> Agent:
